@@ -24,7 +24,7 @@ jobs:
 
       - name: Run tests
         run: |
-          pytest -q
+          pytest -q tests
 
       - name: Run pipeline
         run: |
