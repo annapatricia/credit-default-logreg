@@ -1,3 +1,4 @@
+from src.run_info import save_run_info
 import pandas as pd
 import json
 from pathlib import Path
@@ -27,10 +28,25 @@ def main():
         "f1_class_1": report["1"]["f1-score"]
     }
 
+    # Criar diretório primeiro
     METRICS_DIR.mkdir(parents=True, exist_ok=True)
 
+    # Salvar métricas principais
     with open(METRICS_DIR / "metrics.json", "w") as f:
         json.dump(metrics, f, indent=4)
+
+    # Salvar metadata da execução
+    params = {
+        "model": "LogisticRegression",
+        "class_weight": "balanced",
+        "random_state": 42
+    }
+
+    save_run_info(
+        params=params,
+        metrics=metrics,
+        out_path=METRICS_DIR / "run_info.json"
+    )    
 
     print("Métricas salvas em reports/metrics/metrics.json")
     print(f"ROC AUC: {auc:.4f}")
